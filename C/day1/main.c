@@ -60,6 +60,8 @@ char* extractNums(char * str){
   }
   return result;
 }
+
+
 int main(void) {
   int totalSum = 0;
   char *filename = "input.txt";
