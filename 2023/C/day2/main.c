@@ -32,45 +32,6 @@ void getNums(char *str) {
   } else if (retred == REG_NOMATCH)
     printf("No match found\n");
 }
-void extractNumbersWithRed(char *str) {
-  regex_t regex;
-  regmatch_t match[2]; // Array to store matched substring and its position
-  int reti;
-
-  // Compile the regular expression
-  reti =
-      regcomp(&regex, "\\b[0-9]+\\sred\\b",
-              REG_EXTENDED); // Match numbers followed by space and then "red"
-  if (reti) {
-    fprintf(stderr, "Could not compile regex\n");
-    return;
-  }
-
-  // Execute the regular expression
-  while (regexec(&regex, str, 2, match, 0) == 0) {
-    // Match found
-    char *substring = NULL;
-    if (match[0].rm_so != -1) {
-      // Extract the matched substring
-      int len = match[0].rm_eo - match[0].rm_so;
-      substring = (char *)malloc(len + 1);
-      if (substring == NULL) {
-        fprintf(stderr, "Memory allocation failed\n");
-        return;
-      }
-      strncpy(substring, str + match[0].rm_so, len);
-      substring[len] = '\0';
-    }
-    printf("Matched substring: %s\n", substring);
-    // Move to the next character after the matched substring
-    str += match[0].rm_eo;
-    // Remember to free the allocated memory
-    free(substring);
-  }
-
-  // Free the memory allocated for the compiled regular expression
-  regfree(&regex);
-}
 int main(void) {
   char *filename = "input.txt";
   FILE *fp = fopen(filename, "r");
@@ -84,7 +45,7 @@ int main(void) {
 
   while (fgets(line, sizeof(line), fp) != NULL) {
     char *str = line;
-    extractNumbersWithRed(str);
+    getNums(str);
   }
 
   fclose(fp);
