@@ -28,6 +28,7 @@ char *twodigits(char *str) {
           if (count == 0) {
             firstdigit = *digitMap[i + 1];
             lastdigit = *digitMap[i + 1];
+            count++;
           } else {
             lastdigit = *digitMap[i + 1];
           }
